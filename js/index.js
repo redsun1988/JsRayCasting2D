@@ -1,8 +1,10 @@
 var context;
 var canvas;
+
 var walls = [];
 var rays = [];
 var ray1;
+
 setup = () => 
 {
     canvas = document.getElementById("canvas");
@@ -17,11 +19,21 @@ setup = () =>
 draw = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    walls.forEach((item) => {
-        item.draw(context);
+    walls.forEach((wall) => {
+        wall.draw(context);
     });
-    rays.forEach((item) => {
-        item.draw(context);
+    rays.forEach((ray) => {
+        ray.draw(context);
+        walls.forEach((wall) => {
+            var point = ray.cast(wall);
+
+            if (point) {
+                context.beginPath();
+                context.ellipse(point.X, point.Y, 5, 5, Math.PI / 4, 0, 2 * Math.PI);
+                context.stroke();
+
+            }
+        });
     });
 };
 
